@@ -31,7 +31,9 @@ describe("StringCalculator", () => {
   });
   it("throws an error with all negative numbers listed", () => {
     const calculator = new StringCalculator();
-    expect(() => calculator.add("1,-2,3,-5")).toThrow("negatives not allowed: -2,-5");
+    expect(() => calculator.add("1,-2,3,-5")).toThrow(
+      "negatives not allowed: -2,-5"
+    );
   });
   it("returns the correct number of times add() was called", () => {
     const calculator = new StringCalculator();
@@ -43,5 +45,10 @@ describe("StringCalculator", () => {
     const calculator = new StringCalculator();
     expect(calculator.add("2,1001")).toBe(2);
     expect(calculator.add("1000,1")).toBe(1001); // ✅ 1000 is still valid
+  });
+  it("supports delimiters of any length", () => {
+    const calculator = new StringCalculator();
+    expect(calculator.add("//[***]\n1***2***3")).toBe(6);
+    expect(calculator.add("//[*]\n1*2*3")).toBe(6);
   });
 });

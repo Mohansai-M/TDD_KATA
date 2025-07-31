@@ -1,3 +1,6 @@
+function escapeRegExp(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 export class StringCalculator {
   private callCount: number = 0;
 
@@ -8,20 +11,26 @@ export class StringCalculator {
     let delimiter = /,|\n/; // default delimiters
     let numStr = numbers;
 
-    // If input starts with custom delimiter line
+    // Handle custom delimiter cases
     if (numbers.startsWith("//")) {
-      const parts = numbers.split("\n");
-      const delimiterLine = parts[0];
-      numStr = parts.slice(1).join("\n");
+      const multiDelimiterMatch = numbers.match(/^\/\/\[(.+?)\]\n/);
+      const singleDelimiterMatch = numbers.match(/^\/\/(.)\n/);
 
-      const customDelimiter = delimiterLine[2];
-      delimiter = new RegExp(`[${customDelimiter}|\n]`);
+      if (multiDelimiterMatch) {
+        const customDelimiter = multiDelimiterMatch[1];
+        delimiter = new RegExp(escapeRegExp(customDelimiter));
+        numStr = numbers.slice(multiDelimiterMatch[0].length);
+      } else if (singleDelimiterMatch) {
+        const customDelimiter = singleDelimiterMatch[1];
+        delimiter = new RegExp(`[${customDelimiter}\n]`);
+        numStr = numbers.slice(singleDelimiterMatch[0].length);
+      }
     }
 
     const tokens = numStr.split(delimiter);
     const parsedTokens = tokens
       .map((n) => parseInt(n.trim()))
-      .filter((n) => n <= 1000);
+      .filter((n) => !isNaN(n) && n <= 1000);
 
     // Check for negatives
     const negatives = parsedTokens.filter((n) => n < 0);
