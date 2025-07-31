@@ -8,7 +8,7 @@ export class StringCalculator {
     // If input starts with custom delimiter line
     if (numbers.startsWith("//")) {
       const parts = numbers.split("\n");
-      const delimiterLine = parts[0]; 
+      const delimiterLine = parts[0];
       numStr = parts.slice(1).join("\n");
 
       const customDelimiter = delimiterLine[2];
@@ -16,10 +16,14 @@ export class StringCalculator {
     }
 
     const tokens = numStr.split(delimiter);
-    const total = tokens
-      .map((n) => parseInt(n.trim()))
-      .reduce((a, b) => a + b, 0);
+    const parsedTokens = tokens.map((n) => parseInt(n.trim()));
 
-    return total;
+    // Check for negatives
+    const negatives = parsedTokens.filter((n) => n < 0);
+    if (negatives.length > 0) {
+       throw new Error(`negatives not allowed: ${negatives.join(",")}`);
+    }
+
+   return parsedTokens.reduce((a, b) => a + b, 0);
   }
 }
