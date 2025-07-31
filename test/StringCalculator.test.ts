@@ -39,5 +39,9 @@ describe("StringCalculator", () => {
     calculator.add("3,4,5");
     expect(calculator.getCalledCount()).toBe(2);
   });
-
+  it("ignores numbers greater than 1000", () => {
+    const calculator = new StringCalculator();
+    expect(calculator.add("2,1001")).toBe(2);
+    expect(calculator.add("1000,1")).toBe(1001); // ✅ 1000 is still valid
+  });
 });

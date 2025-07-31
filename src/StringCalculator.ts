@@ -19,7 +19,9 @@ export class StringCalculator {
     }
 
     const tokens = numStr.split(delimiter);
-    const parsedTokens = tokens.map((n) => parseInt(n.trim()));
+    const parsedTokens = tokens
+      .map((n) => parseInt(n.trim()))
+      .filter((n) => n <= 1000);
 
     // Check for negatives
     const negatives = parsedTokens.filter((n) => n < 0);
