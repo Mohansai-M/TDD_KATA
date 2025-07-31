@@ -1,5 +1,8 @@
 export class StringCalculator {
+  private callCount: number = 0;
+
   add(numbers: string): number {
+    this.callCount++;
     if (numbers === "") return 0;
 
     let delimiter = /,|\n/; // default delimiters
@@ -21,9 +24,13 @@ export class StringCalculator {
     // Check for negatives
     const negatives = parsedTokens.filter((n) => n < 0);
     if (negatives.length > 0) {
-       throw new Error(`negatives not allowed: ${negatives.join(",")}`);
+      throw new Error(`negatives not allowed: ${negatives.join(",")}`);
     }
 
-   return parsedTokens.reduce((a, b) => a + b, 0);
+    return parsedTokens.reduce((a, b) => a + b, 0);
+  }
+
+  getCalledCount(): number {
+    return this.callCount;
   }
 }

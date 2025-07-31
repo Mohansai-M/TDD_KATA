@@ -33,4 +33,11 @@ describe("StringCalculator", () => {
     const calculator = new StringCalculator();
     expect(() => calculator.add("1,-2,3,-5")).toThrow("negatives not allowed: -2,-5");
   });
+  it("returns the correct number of times add() was called", () => {
+    const calculator = new StringCalculator();
+    calculator.add("1,2");
+    calculator.add("3,4,5");
+    expect(calculator.getCalledCount()).toBe(2);
+  });
+
 });
