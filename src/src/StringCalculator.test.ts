@@ -17,4 +17,8 @@ describe("StringCalculator", () => {
     const calculator = new StringCalculator();
     expect(calculator.add("1,2,3,6,7,8,9,10,203,505,300")).toBe(1054);
   });
+  it('returns 6 for "1\\n2,3"', () => {
+    const calculator = new StringCalculator();
+    expect(calculator.add("1\n2,3")).toBe(6);
+  });
 });
